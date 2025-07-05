@@ -3,25 +3,32 @@ package com.example.geminiai
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
-import com.google.firebase.ai.FirebaseAI
 import com.google.firebase.ai.GenerativeModel
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.GenerativeBackend
+import com.stfalcon.chatkit.messages.MessagesList
+import com.stfalcon.chatkit.messages.MessagesListAdapter
 import kotlinx.coroutines.launch
+import java.util.Calendar
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var searchField:EditText
-    lateinit var resultTV:TextView
     lateinit var SendBtn:ImageButton
-
+    lateinit var SendCard: CardView
     lateinit var model: GenerativeModel
-    //AIzaSyDoNpQAha3g2S2WaE1hDSySU-8VUaxM6WY
+    lateinit var messageList: MessagesList
+    lateinit var us: User
+    lateinit var gemini: User
+    lateinit var adapter: MessagesListAdapter<Message>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,11 +41,24 @@ class MainActivity : AppCompatActivity() {
 
 
         searchField=findViewById(R.id.editTextText)
-        resultTV=findViewById(R.id.textView)
         SendBtn=findViewById(R.id.imageButton)
+        SendCard=findViewById(R.id.cardView2)
+        messageList=findViewById(R.id.messagesList)
 
+        us = User(id = "1", name = "Sriram", avatar = "")
+        gemini = User(id = "2", name = "Gemini", avatar = "")
+
+        adapter =
+            MessagesListAdapter<Message>("1", null)
+        messageList.setAdapter(adapter)
 
         SendBtn.setOnClickListener {
+            lifecycleScope.launch {
+                performAction(searchField.text.toString())
+            }
+        }
+
+        SendCard.setOnClickListener {
             lifecycleScope.launch {
                 performAction(searchField.text.toString())
             }
@@ -50,9 +70,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     suspend fun performAction(question:String){
+        searchField.text.clear()
+        var message: Message = Message(id = "m1", text = question, user = us, createdAt = Calendar.getInstance().time)
+        adapter.addToStart(message, true)
         val response = model.generateContent(question)
+        var message2 = Message(id = "m2", text = response.text!!, user = gemini, createdAt = Calendar.getInstance().time)
+        adapter.addToStart(message2, true)
         print(response.text)
-        resultTV.text=response.text
 
     }
 
