@@ -3,6 +3,7 @@ package com.example.geminiai
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -62,6 +63,11 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 performAction(searchField.text.toString())
             }
+        }
+
+        findViewById<ImageView>(R.id.imageView).setOnClickListener {
+            
+
         }
 
         loadModel();
