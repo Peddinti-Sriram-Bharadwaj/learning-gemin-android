@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887932928902",
+    "project_id": "geminiai-218fd",
+    "storage_bucket": "geminiai-218fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887932928902:android:e2e7fb5ea502c0625de207",
+        "android_client_info": {
+          "package_name": "com.example.geminiai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgI3lOEZoklNb2xq69FG5J6CCge97iBks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
